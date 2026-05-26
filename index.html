@@ -1,1 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Your Name</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
 
+<nav>
+  <span class="logo">Portfolio</span>
+  <ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')">&#9776;</button>
+</nav>
+<div id="mob" class="mob-nav">
+  <a href="#hero">Home</a><a href="#skills">Skills</a><a href="#works">Works</a><a href="#contact">Contact</a>
+</div>
+
+<section id="hero">
+  <div class="hero-l">
+    <p class="tag">Hello, I'm</p>
+    <h1>Reiner</h1>
+    <p class="sub">I enjoy breaking down problems and creating simple, effective solutions that work.</p>
+    <div class="btns">
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=markreinerpanlilio@gmail.com&su=Job%20Oppurtunity&body=Hi,%20I%20want%20to%20work%20with%20you!" class="btn">Hire Me</a>
+      <a href="#works" class="btn-o">See My Work</a>
+    </div>
+    <div class="socials">
+      <a href="#" title="LinkedIn">in</a>
+      <a href="#" title="GitHub">gh</a>
+      <a href="#" title="Dribbble">dr</a>
+      <a href="#" title="GitLab">gl</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="portrait-wrap">
+      <div class="glow"></div>
+      <img src="portrait-of-me.png" alt="Portrait" />
+    </div>
+    <a href="#" class="resume">RESUME &#8599;</a>
+  </div>
+</section>
+
+<section id="skills">
+  <p class="tag">What I Do</p>
+  <h2>Skills &amp; Expertise</h2>
+  <div class="bars">
+    <div class="col">
+      <div class="bar"><div class="bh"><span>Programming</span><span>85%</span></div><div class="track"><div class="fill" data-w="85"></div></div><p>HTML / CSS &middot; JavaScript &middot; Python &middot; SQL</p></div>
+      <div class="bar"><div class="bh"><span>Graphic Design</span><span>90%</span></div><div class="track"><div class="fill" data-w="90"></div></div><p>Photoshop &middot; Canva &middot; Branding &middot; Print</p></div>
+      <div class="bar"><div class="bh"><span>UI / UX Design</span><span>80%</span></div><div class="track"><div class="fill" data-w="80"></div></div><p>Figma &middot; Wireframing &middot; Prototyping</p></div>
+    </div>
+    <div class="col">
+      <div class="bar"><div class="bh"><span>Problem Solving</span><span>88%</span></div><div class="track"><div class="fill" data-w="88"></div></div><p>Critical Thinking &middot; Research &middot; Analysis</p></div>
+      <div class="bar"><div class="bh"><span>Logic &amp; Systems</span><span>82%</span></div><div class="track"><div class="fill" data-w="82"></div></div><p>Algorithms &middot; Data Flow &middot; Systems Design</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <p class="tag">My Portfolio</p>
+  <h2>Selected Works</h2>
+
+  <div class="works-sub">
+    <h3>Graphic Designs</h3>
+    <div class="grid" id="gfxGrid">
+      <div class="card"><div class="card-img" style="background:#1a0d00;"></div><div class="card-b"><span>Graphic Design</span><h4>Project Title</h4><p>Short description of this project and what it involved.</p><a href="#">View Project &#8599;</a></div></div>
+      <div class="card"><div class="card-img" style="background:#110800;"></div><div class="card-b"><span>Graphic Design</span><h4>Project Title</h4><p>Short description of this project and what it involved.</p><a href="#">View Project &#8599;</a></div></div>
+    </div>
+  </div>
+
+  <div class="works-sub">
+    <h3>UI / UX Designs</h3>
+    <div class="grid" id="uiuxGrid">
+      <div class="card"><div class="card-img" style="background:#0d0800;"></div><div class="card-b"><span>UI / UX</span><h4>Project Title</h4><p>Short description of this project and what it involved.</p><a href="#">View Project &#8599;</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <p class="tag">Get In Touch</p>
+  <h2>Let's Work Together</h2>
+  <p>Have a project in mind? I'd love to hear about it.</p>
+  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=markreinerpanlilio@gmail.com&su=Job%20Oppurtunity&body=Hi,%20I%20want%20to%20work%20with%20you!" class="btn">Hire Me &#8599;</a>
+</section>
+
+<footer>
+  <span class="logo">YN</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+
+  /* ================================
+     SUPABASE FETCH
+  ================================= */
+
+  async function loadGraphicDesigns() {
+
+    const gfxGrid =
+      document.getElementById('gfxGrid');
+
+    gfxGrid.innerHTML = '';
+
+
+    const { data, error } =
+      await supabaseClient
+        .from('graphic_designs')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+
+    if (!data.length) {
+
+      gfxGrid.innerHTML = `
+        <p style="color:#888;">
+          No graphic design works yet.
+        </p>
+      `;
+
+      return;
+    }
+
+
+    data.forEach(item => {
+
+      gfxGrid.innerHTML += `
+
+        <div class="card">
+
+          <div
+            class="card-img"
+            style="
+              background:url('${item.image_url}');
+              background-size:cover;
+              background-position:center;
+            ">
+          </div>
+
+          <div class="card-b">
+
+            <span>
+              ${item.design_type}
+            </span>
+
+            <h4>
+              ${item.title}
+            </h4>
+
+            <p>
+              ${item.description || ''}
+            </p>
+
+            <a
+              href="${item.project_link || '#'}"
+              target="_blank">
+
+              View Project &#8599;
+
+            </a>
+
+          </div>
+
+        </div>
+
+      `;
+    });
+
+  }
+
+
+
+  async function loadUIUXProjects() {
+
+    const uiuxGrid =
+      document.getElementById('uiuxGrid');
+
+    uiuxGrid.innerHTML = '';
+
+
+    const { data, error } =
+      await supabaseClient
+        .from('uiux_projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+
+    if (!data.length) {
+
+      uiuxGrid.innerHTML = `
+        <p style="color:#888;">
+          No UI/UX works yet.
+        </p>
+      `;
+
+      return;
+    }
+
+
+    data.forEach(item => {
+
+      uiuxGrid.innerHTML += `
+
+        <div class="card">
+
+          <div
+            class="card-img"
+            style="
+              background:url('${item.image_url}');
+              background-size:cover;
+              background-position:center;
+            ">
+          </div>
+
+          <div class="card-b">
+
+            <span>
+              ${item.platform}
+            </span>
+
+            <h4>
+              ${item.title}
+            </h4>
+
+            <p>
+              ${item.description || ''}
+            </p>
+
+            <a
+              href="${
+                item.figma_prototype_link || '#'
+              }"
+              target="_blank">
+
+              View Project &#8599;
+
+            </a>
+
+          </div>
+
+        </div>
+
+      `;
+    });
+
+  }
+
+
+
+  /* ================================
+     LOAD CONTENT
+  ================================= */
+
+  loadGraphicDesigns();
+  loadUIUXProjects();
+
+
+
+  /* ================================
+     SKILL BAR ANIMATION
+  ================================= */
+
+  new IntersectionObserver(e =>
+    e.forEach(x =>
+      x.isIntersecting &&
+      x.target
+        .querySelectorAll('.fill')
+        .forEach(b =>
+          b.style.width =
+            b.dataset.w + '%'
+        )
+    ),
+    { threshold:.3 }
+
+  ).observe(
+    document.getElementById('skills')
+  );
+
+
+
+  /* ================================
+     SMOOTH SCROLL
+  ================================= */
+
+  document
+    .querySelectorAll('a[href^="#"]')
+
+    .forEach(a =>
+      a.addEventListener('click', e => {
+
+        const t =
+          document.querySelector(
+            a.getAttribute('href')
+          );
+
+        if (t) {
+
+          e.preventDefault();
+
+          t.scrollIntoView({
+            behavior:'smooth'
+          });
+
+        }
+
+      })
+    );
+
+</script>
+</body>
+</html>
